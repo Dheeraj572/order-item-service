@@ -55,7 +55,7 @@ public class ProductController {
 		
 		List<ProductResponse> productResponseList = iProductService.getProducts();
 		
-		if(Optional.ofNullable(productResponseList).isPresent() && Optional.ofNullable(productResponseList).isEmpty()) {
+		if(Optional.ofNullable(productResponseList).isPresent() && Optional.ofNullable(productResponseList).get().isEmpty()) {
 			
 			log.info("No Content-----");
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
