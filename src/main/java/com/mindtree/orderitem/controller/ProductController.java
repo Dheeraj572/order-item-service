@@ -27,23 +27,19 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RefreshScope
 public class ProductController {
-	
+
 	@Autowired
 	private IProductService iProductService;
-	
+
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@ApiOperation(value = "Create products")
-	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Products Created"),
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Products Created"),
 			@ApiResponse(code = 400, message = "Invalid products") })
 	@PostMapping
 	public void createProduct(@RequestBody List<ProductRequest> productRequestList) {
-		
-		log.info("Creating products-----");
-		
+
 		iProductService.createProduct(productRequestList);
-		
-		log.info("Products created-----");
+
 	}
 
 	@ApiOperation(value = "Get all products")
@@ -51,19 +47,17 @@ public class ProductController {
 			@ApiResponse(code = 200, message = "Retreieved all products", response = ProductResponse.class, responseContainer = "List"),
 			@ApiResponse(code = 204, message = "No Content") })
 	@GetMapping
-	public ResponseEntity<?> getProducts(){
-		
-		log.info("Retrieving products-----");
-		
+	public ResponseEntity<?> getProducts() {
+
 		List<ProductResponse> productResponseList = iProductService.getProducts();
-		
-		if(Optional.ofNullable(productResponseList).isPresent() && Optional.ofNullable(productResponseList).get().isEmpty()) {
-			
+
+		if (Optional.ofNullable(productResponseList).isPresent()
+				&& Optional.ofNullable(productResponseList).get().isEmpty()) {
+
 			log.info("No Content-----");
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		
-		log.info("Retrieved products-----");
+
 		return new ResponseEntity<>(productResponseList, HttpStatus.OK);
 	}
 }

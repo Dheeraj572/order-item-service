@@ -9,10 +9,8 @@ import com.mindtree.orderitem.entity.Product;
 import com.mindtree.orderitem.repository.IProductRepository;
 import com.mindtree.orderitem.util.ProductRequest;
 import com.mindtree.orderitem.util.ProductResponse;
-import lombok.extern.log4j.Log4j2;
 
 @Service
-@Log4j2
 public class ProductService implements IProductService {
 
 	@Autowired
@@ -25,12 +23,8 @@ public class ProductService implements IProductService {
 
 		List<Product> productList = iProductRepository.findAll();
 
-		log.info("Mapping Product list to ProductResponse list");
-
 		List<ProductResponse> productResponseList = productList.parallelStream()
 				.map(ProductService::convertToProductResponse).collect(Collectors.toList());
-
-		log.info("Mapped Product list to ProductResponse list");
 
 		return productResponseList;
 	}
@@ -38,12 +32,8 @@ public class ProductService implements IProductService {
 	@Override
 	public void createProduct(List<ProductRequest> productRequestList) {
 
-		log.info("Mapping ProductResponse list to Product list");
-
 		List<Product> productList = productRequestList.parallelStream().map(ProductService::convertToProduct)
 				.collect(Collectors.toList());
-
-		log.info("Mapped ProductResponse list to Product list");
 
 		iProductRepository.saveAll(productList);
 
